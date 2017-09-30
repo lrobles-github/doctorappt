@@ -7,7 +7,7 @@
     <div id="block-inputs">
     <label for="date">Date</label>
     <input required min="{{ today | date: 'y-M-d' }}" type="date" name="date" [(ngModel)]="appointment.date">
-  {{ today | date: 'y-M-d' }}
+  
     <label for="time">Time</label>
     <input required min="8:00" max="17:00" type="time" name="time" [(ngModel)]="appointment.time">
     
