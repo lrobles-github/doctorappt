@@ -1,0 +1,53 @@
+// Express setup
+const express = require('express');
+const app = express();
+
+
+
+// Mongoose setup
+const mongoose = require('mongoose');
+require('./config/mongoose.js');
+
+
+
+// Session setup
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+app.use(session({
+  cookie: { maxAge: 60000 },
+  store: new MongoStore({ mongooseConnection: mongoose.connection }),
+  saveUninitialized: true,
+  resave: true,
+  secret: 'secret'
+}));
+
+
+
+//  Body-parser setup
+var bodyParser = require('body-parser');
+app.use(bodyParser.json({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
+
+
+
+// Static folder setup
+const path = require('path');
+app.use(express.static(path.join(__dirname, '../../doctorappt/public/dist')));
+
+
+
+// Routes configuration file
+var routes_setter = require('./config/routes.js');
+routes_setter(app);
+
+
+// // Express-Flash setup
+// var flash = require('express-flash');
+// app.use(flash());
+
+
+
+// Server to Listen on Port 1337
+app.listen(1337, function() {
+    console.log("Server started. Listening on port 1337...");
+})
